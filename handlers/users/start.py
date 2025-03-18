@@ -66,10 +66,10 @@ async def create_or_update_account(message: types.Message):
 
     welcome_messages = {
         "uz": ("Akkaunt muvaffaqiyatli yaratildi ✅", 
-               f"Assalomu alaykum <b>{full_name}</b>! Bizning Turan AI botga xush kelibsiz 😊"),
+               f"Assalomu alaykum <b>{full_name}</b>! Bizning BITTU AI botga xush kelibsiz 😊"),
         
         "tr": ("Hesap başarıyla oluşturuldu ✅",
-               f"Merhaba <b>{full_name}</b>! Turan AI botumuza hoş geldiniz 😊")
+               f"Merhaba <b>{full_name}</b>! BITTU AI botumuza hoş geldiniz 😊")
     }
 
     update_messages = {
