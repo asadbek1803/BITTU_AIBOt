@@ -31,7 +31,7 @@ async def handle_about_center(message: types.Message):
     
     about_text = {
         "uz": (
-            "<b>BUXORO INNOVATSION TEXNOLOGIYALAR UNIVERSITETI</b>\n\n"
+            "<b>Buxoro Innovation talim va tibbiyot universiteti</b>\n\n"
             "<b>📚 BITUning afzalliklari:</b>\n"
             "✅ A'lochi bitiruvchilarni ish bilan ta'minlashga ko'maklashamiz\n"
             "✅ Buxorodagi eng yirik sig'imli (1000 kishilik) Faollar zali mavjud\n"
@@ -46,7 +46,7 @@ async def handle_about_center(message: types.Message):
             "📍 <b>Manzil:</b> Buxoro shahri, Namozgoh ko'chasi, 112"
         ),
         "tr": (
-            "<b>BUHARA YENİLİKÇİ TEKNOLOJİLER ÜNİVERSİTESİ</b>\n\n"
+            "<b>Buxoro Innovation talim va tibbiyot universiteti</b>\n\n"
             "<b>📚 BITU'nun avantajları:</b>\n"
             "✅ Başarılı mezunların istihdamına yardımcı oluyoruz\n"
             "✅ Buhara'daki en büyük (1000 kişilik) Konferans Salonu\n"

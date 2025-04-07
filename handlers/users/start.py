@@ -25,10 +25,10 @@ async def do_start(message: types.Message):
     if user:
         language = user.get("language", "uz")
         text = messages[language]["start_command"].format(name=full_name)
-        video_url = "https://t.me/bitiinfo/1939"
-        await message.answer_photo(
+        video_url = "https://t.me/bitiinfo/1967"
+        await message.answer_video(
             caption=text,
-            photo=video_url,
+            video=video_url,
             parse_mode=ParseMode.HTML,
             reply_markup=get_keyboard(language)
         )
@@ -90,10 +90,10 @@ async def create_or_update_account(message: types.Message):
             )
             success_msg, welcome_msg = welcome_messages[language]
             await message.answer(text=success_msg)
-            video_url = "https://t.me/bitiinfo/1939"
-            await message.answer_photo(
+            video_url = "https://t.me/bitiinfo/1967"
+            await message.answer_video(
                 caption=welcome_msg,
-                photo=video_url,
+                video=video_url,
                 parse_mode=ParseMode.HTML,
                 reply_markup=get_keyboard(language)
             )

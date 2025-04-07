@@ -24,7 +24,7 @@ buttons = {
 messages = {
     "uz": {
         "start": "<b>🤖 AI Chatbot bilan suhbatni boshladingiz!</b>\n\nSavollaringizni yozing.\n\n❌ Chiqish uchun /stop ni yuboring.",
-        "start_command": "Assalomu alaykum <b>{name}</b>! BITU universiteti botiga xush kelibsiz!",
+        "start_command": "Assalomu alaykum <b>{name}</b>! BITTUning SI (Sun'iy intellekt)  xizmatlari sahifasiga xush kelibsiz!",
         "voice_response":"🔊 Ovozli xabar",
         "education_center_address": "<b>BITU universiteti manzili:</b>\n\nBuxoro shahar\n\nMo'ljal: Carmen Plyus qarshisida 5-chi kichik nohiya\n\n<b>Aloqa uchun:</b> <code>+998 (65) 220 55 45</code>\n\n<b>Ish vaqti:</b> Dushanba-Shanba | soat 9:00 - 18:00",
         "choose_lang": "🌍 Iltimos, tilni tanlang:\n\n🇺🇿 O'zbekcha | 🇹🇷 Türkçe",
@@ -53,7 +53,7 @@ messages = {
     
     "tr": {
         "start": "<b>🤖 AI Chatbot ile sohbete başladınız!</b>\n\nSorularınızı sorun.\n\n❌ Çıkmak için /stop gönderin.",
-        "start_command": "Merhaba <b>{name}</b>! BITU Üniversitesi botuna hoş geldiniz!",
+        "start_command": "Merhaba <b>{name}</b> BITTUning SI (Sun'iy intellekt)  xizmatlari sahifasiga xush kelibsiz!",
         "voice_response": "🔊 Sesli mesaj",
         "education_center_address": "<b>BITU Üniversitesi adresi:</b>\n\nBuhara şehri\n\nDönüm noktası: Carmen Plus karşısında 5. mikro bölge\n\n<b>İletişim için:</b> <code>+998 (65) 220 55 45</code>\n\n<b>Çalışma saatleri:</b> Pazartesi-Cumartesi | 9:00 - 18:00",
         "about_start": """Merhaba, <b>BITU Üniversitesi</b> özel olarak tasarlanmış botumuza hoş geldiniz!
