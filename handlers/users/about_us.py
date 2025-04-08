@@ -58,7 +58,7 @@ students_markup = types.InlineKeyboardMarkup(inline_keyboard=create_for_students
 async def to_directions_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
-    
+    await callback.message.delete()
     directions_text = {
         "uz": "Yo'nalishlar",
         "tr": "Bölümler"
@@ -71,6 +71,7 @@ async def to_directions_handler(callback: types.CallbackQuery):
 async def handle_about_center(message: types.Message):
     """Handle information requests about BITU"""
     telegram_id = message.from_user.id
+    await message.delete()
     user = await db.select_user(telegram_id=telegram_id)
     language = user["language"] if user else "uz"
     
@@ -117,6 +118,7 @@ async def handle_about_center(message: types.Message):
 @router.callback_query(lambda c: c.data == "grant")
 async def grant_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
+    await callback.message.delete()
     language = user["language"] if user else "uz"
     video_url = "https://t.me/turan_mediafiles/8"
     grant_text = {
@@ -138,6 +140,7 @@ async def grant_handler(callback: types.CallbackQuery):
     
 @router.callback_query(lambda c: c.data == "directions")
 async def directions_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     
@@ -150,6 +153,7 @@ async def directions_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "med")
 async def med_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     photo_url = "https://t.me/turan_mediafiles/10"
 
     text = ("Davolash ishi\n\n"
@@ -165,6 +169,7 @@ async def med_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "stom") 
 async def stom_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     photo_url = "https://t.me/turan_mediafiles/10"
 
     text = ("Stomatologiya\n\n"
@@ -179,6 +184,7 @@ async def stom_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "distance")
 async def distance_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     photo_url = "https://t.me/turan_mediafiles/11"
     text = ("SIRTQI Yo'nalishlar\n\n"
             "- IQTISODIYOT\n"
@@ -190,6 +196,7 @@ async def distance_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "filology")
 async def filology_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     photo_url = "https://t.me/turan_mediafiles/13"
     text = ("Tillar Yo'nalishi\n\n"
             "- Ingliz Tili Filologiyasi\n"
@@ -203,6 +210,7 @@ async def filology_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "for_students")
 async def students_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     photo_url = "https://t.me/turan_mediafiles/10"
@@ -223,6 +231,7 @@ async def students_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "advantages")
 async def advantages_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     photo_url = "https://t.me/turan_mediafiles/10"
@@ -242,6 +251,7 @@ async def advantages_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "address")
 async def address_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     photo_url = "https://t.me/turan_mediafiles/14"
@@ -259,6 +269,7 @@ async def address_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "contact")
 async def contact_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     
@@ -271,6 +282,7 @@ async def contact_handler(callback: types.CallbackQuery):
 
 @router.callback_query(lambda c: c.data == "to_home")
 async def home_handler(callback: types.CallbackQuery):
+    await callback.message.delete()
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     
