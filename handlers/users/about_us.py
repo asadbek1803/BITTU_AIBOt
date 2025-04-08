@@ -3,12 +3,24 @@ from aiogram.enums.parse_mode import ParseMode
 from componets.messages import buttons, messages
 from loader import db
 
-
-
 router = Router()
 
 
-menu_about = [
+
+
+# Global button functions
+
+def create_for_students_buttons():
+    return [
+        [types.InlineKeyboardButton(text="✍️ Ariza qoldirish", url="https://bimu.uz/registration?social=bittuaibot")],
+        [types.InlineKeyboardButton(text="3 mln so'm Yutib oling", url="https://bimu.uz/registration?social=bittuaibot"), types.InlineKeyboardButton(text="5 mln Yutib oling", url="https://bimu.uz/registration?social=bittuaibot")],
+        [types.InlineKeyboardButton(text="7 mln so'm Yutib oling", url="https://bimu.uz/registration?social=bittuaibot")],
+        [types.InlineKeyboardButton(text="10 mln so'm Yutib oling", url="https://bimu.uz/registration?social=bittuaibot")],
+        [types.InlineKeyboardButton(text="❌ Bekor qilish ❌", callback_data="to_home")],
+    ]
+
+def create_menu_about_buttons():
+    return [
         [types.InlineKeyboardButton(text="💰 GRANT-GPA", callback_data="grant")],
         [types.InlineKeyboardButton(text="👉 Yo'nalishlar", callback_data="directions")],
         [types.InlineKeyboardButton(text="👉 Abituryentlar uchun", callback_data="for_students")],
@@ -16,9 +28,42 @@ menu_about = [
         [types.InlineKeyboardButton(text="📌Manzil📌", callback_data="address")],
         [types.InlineKeyboardButton(text="📞Aloqa📞", callback_data="contact")],
         [types.InlineKeyboardButton(text="↩️Qaytish↩️", callback_data="to_home")],
-        ]
+    ]
 
-channel_markup = types.InlineKeyboardMarkup(inline_keyboard=menu_about)
+def create_directions_buttons():
+    return [
+        [types.InlineKeyboardButton(text="Davolash ishi", callback_data="med")],
+        [types.InlineKeyboardButton(text="Stomatologiya", callback_data="stom")],
+        [types.InlineKeyboardButton(text="Sirtqi yo'nalishlar", callback_data="distance")],
+        [types.InlineKeyboardButton(text="Notibbiyot yo'nalishlar", callback_data="non_med")],
+        [types.InlineKeyboardButton(text="Tillar yo'nalishi", callback_data="filology")],
+        [types.InlineKeyboardButton(text="↩️Qaytish↩️", callback_data="to_home")]
+    ]
+
+
+
+def create_cancel_button():
+    return [
+        [types.InlineKeyboardButton(text="✍️ Ro'yxatdan o'tish", url="https://bimu.uz/registration?social=bittuaibot")],
+        [types.InlineKeyboardButton(text="❌ Bekor qilish ❌", callback_data="to_directions")]
+    ]
+
+# Create markups using the button functions
+channel_markup = types.InlineKeyboardMarkup(inline_keyboard=create_menu_about_buttons())
+directions_markup = types.InlineKeyboardMarkup(inline_keyboard=create_directions_buttons())
+cancel_markup = types.InlineKeyboardMarkup(inline_keyboard=create_cancel_button())
+students_markup = types.InlineKeyboardMarkup(inline_keyboard=create_for_students_buttons())
+
+@router.callback_query(lambda c: c.data == "to_directions")
+async def to_directions_handler(callback: types.CallbackQuery):
+    user = await db.select_user(telegram_id=callback.from_user.id)
+    language = user["language"] if user else "uz"
+    
+    directions_text = {
+        "uz": "Yo'nalishlar",
+        "tr": "Bölümler"
+    }
+    await callback.message.answer(directions_text[language], reply_markup=directions_markup)
 
 
 @router.message(lambda message: message.text == buttons["uz"]["btn_aboutus"] or
@@ -96,24 +141,17 @@ async def directions_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
     
-    directions_buttons = [
-        [types.InlineKeyboardButton(text="Davolash ishi", callback_data="med")],
-        [types.InlineKeyboardButton(text="Stomatologiya", callback_data="stom")],
-        [types.InlineKeyboardButton(text="Sirtqi yo'nalishlar", callback_data="distance")],
-        [types.InlineKeyboardButton(text="Kunduzgi yo'nalishlar", callback_data="daytime")],
-        [types.InlineKeyboardButton(text="Filologiya yo'nalishlar", callback_data="filology")],
-        [types.InlineKeyboardButton(text="↩️Qaytish↩️", callback_data="to_home")]
-    ]
-    directions_markup = types.InlineKeyboardMarkup(inline_keyboard=directions_buttons)
-    
+    photo_url = "https://t.me/turan_mediafiles/9"
     directions_text = {
         "uz": "BITUdagi mavjud yo'nalishlar bilan tanishing:",
         "tr": "BITU'daki mevcut bölümleri inceleyin:"
     }
-    await callback.message.answer(directions_text[language], reply_markup=directions_markup)
+    await callback.message.answer_photo(photo=photo_url, caption=directions_text[language], reply_markup=directions_markup)
 
 @router.callback_query(lambda c: c.data == "med")
 async def med_handler(callback: types.CallbackQuery):
+    photo_url = "https://t.me/turan_mediafiles/10"
+
     text = ("Davolash ishi\n\n"
             "O'qish muddati: 6 yil\n\n"
             "O'qish to'lovi: 32 340 000 so'm\n"
@@ -123,10 +161,12 @@ async def med_handler(callback: types.CallbackQuery):
             "1-Sentabrgacha to'lov qilsangiz: 25 340 000 so'm\n\n" 
             "1-Oktabrgacha to'lov qilsangiz: 27 340 000 so'm\n\n"
             "Shoshiling o'rinlar soni cheklangan!")
-    await callback.message.answer(text, reply_markup=channel_markup)
+    await callback.message.answer_photo(photo_url, caption=text, reply_markup=cancel_markup)
 
 @router.callback_query(lambda c: c.data == "stom") 
 async def stom_handler(callback: types.CallbackQuery):
+    photo_url = "https://t.me/turan_mediafiles/10"
+
     text = ("Stomatologiya\n\n"
             "O'qish muddati: 5 yil\n\n"
             "O'qish to'lovi: 32 340 000 so'm\n"
@@ -135,20 +175,22 @@ async def stom_handler(callback: types.CallbackQuery):
             "1-Avgustgacha to'lov qilsangiz: 22 340 000 so'm\n\n"
             "1-Sentabrgacha to'lov qilsangiz: 25 340 000 so'm\n\n"
             "1-Oktabrgacha to'lov qilsangiz: 27 340 000 so'm")
-    await callback.message.answer(text, reply_markup=channel_markup)
+    await callback.message.answer_photo(photo=photo_url, caption=text, reply_markup=cancel_markup)
 
 @router.callback_query(lambda c: c.data == "distance")
 async def distance_handler(callback: types.CallbackQuery):
+    photo_url = "https://t.me/turan_mediafiles/11"
     text = ("SIRTQI Yo'nalishlar\n\n"
             "- IQTISODIYOT\n"
             "- PSIXOLOGIYA\n" 
             "- BOSHLANG'ICH Ta'lim\n\n"
             "O'qish Muddati: 5 yil\n"
             "O'qish narxi: 6 000 000 so'm")
-    await callback.message.answer(text, reply_markup=channel_markup)
+    await callback.message.answer_photo(photo=photo_url, caption=text, reply_markup=cancel_markup)
 
 @router.callback_query(lambda c: c.data == "filology")
 async def filology_handler(callback: types.CallbackQuery):
+    photo_url = "https://t.me/turan_mediafiles/13"
     text = ("Tillar Yo'nalishi\n\n"
             "- Ingliz Tili Filologiyasi\n"
             "- Nemis Tili Filologiyasi\n"
@@ -157,40 +199,63 @@ async def filology_handler(callback: types.CallbackQuery):
             "O'qish Muddati: 4 yil\n\n"
             "O'qish narxi: 12 000 000 so'm\n\n"
             "Bo'lib to'lash imkoniyati mavjud")
-    await callback.message.answer(text, reply_markup=channel_markup)
+    await callback.message.answer_photo(photo = photo_url, caption=text, reply_markup=cancel_markup)
 
 @router.callback_query(lambda c: c.data == "for_students")
 async def students_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
-    
-    students_text = {
-        "uz": "Bu bo'lim xali tamirda ⚠️.",
-        "tr": "Bu bo'lim xali tamirda ⚠️."
-    }
-    await callback.message.answer(students_text[language], reply_markup=channel_markup)
+    photo_url = "https://t.me/turan_mediafiles/10"
+    text = """
+                - O'qish davomida GRANT yutib olishingiz mumkin
+        - O'zlashtirishi yaxshi bo'lgan abituriyentlarga 12 500 000 so'mgacha pul mukofotiga ega bo'lasiz
+        - A'lochi bitiruvchilarni ish bilan ta’minlashga ko'maklashamiz
+        - Buxorodagi eng yirik sig'imli (1000 kishilik) Faollar zali mavjud.
+        - Dars jarayonida simulyatorlardan foydalaniladi.
+        - Yangicha o'quv tizimi yo'lga qo'yilgan bo'lib darslar Koreya, Hindiston, Rossiya, Germaniya kabi davlatlarda tajriba orttirib kelgan mutaxassislar tomonidan olib boriladi.
+        - O'quv mashg'ulotlari haftada 5 kunlik rejim asosida o'tkaziladi.
+        - Davlat namunasidagi diplom bilan ta`minlanadi!
+        - 1-Kursdanoq tajriba to'plash imkoniyati mavjud!
+        - Shifokorlarning farzandlariga kirish imtihonlarida imtiyozlar mavjud!
+
+    """
+    await callback.message.answer_photo(photo=photo_url, caption=text, reply_markup=students_markup)
 
 @router.callback_query(lambda c: c.data == "advantages")
 async def advantages_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
+    photo_url = "https://t.me/turan_mediafiles/10"
+    text = """- O'qish davomida GRANT yutib olishingiz mumkin
+        - O'zlashtirishi yaxshi bo'lgan abituriyentlarga 12 500 000 so'mgacha pul mukofotiga ega bo'lasiz
+        - A'lochi bitiruvchilarni ish bilan ta’minlashga ko'maklashamiz
+        - Buxorodagi eng yirik sig'imli (1000 kishilik) Faollar zali mavjud.
+        - Dars jarayonida simulyatorlardan foydalaniladi.
+        - Yangicha o'quv tizimi yo'lga qo'yilgan bo'lib darslar Koreya, Hindiston, Rossiya, Germaniya kabi davlatlarda tajriba orttirib kelgan mutaxassislar tomonidan olib boriladi.
+        - O'quv mashg'ulotlari haftada 5 kunlik rejim asosida o'tkaziladi.
+        - Davlat namunasidagi diplom bilan ta`minlanadi!
+        - 1-Kursdanoq tajriba to'plash imkoniyati mavjud!
+        - Shifokorlarning farzandlariga kirish imtihonlarida imtiyozlar mavjud!
+        """
     
-    advantages_text = {
-        "uz": "Bu bo'lim xali tamirda ⚠️..",
-        "tr": "Bu bo'lim xali tamirda ⚠️."
-    }
-    await callback.message.answer(advantages_text[language], reply_markup=channel_markup)
+    await callback.message.answer_photo(photo=photo_url, caption=text, reply_markup=channel_markup)
 
 @router.callback_query(lambda c: c.data == "address")
 async def address_handler(callback: types.CallbackQuery):
     user = await db.select_user(telegram_id=callback.from_user.id)
     language = user["language"] if user else "uz"
-    
-    address_text = {
-        "uz": "Manzil: Buxoro shahri, Namozgoh ko'chasi, 112",
-        "tr": "Adres: Buhara şehri, Namozgoh caddesi, 112"
-    }
-    await callback.message.answer(address_text[language], reply_markup=channel_markup)
+    photo_url = "https://t.me/turan_mediafiles/14"
+    text = (
+        """Manzil: 
+            🏫Buxoro Shahar Nomozgoh ko'chasi 112-uy.
+
+            Mo'ljal/Orentir: 
+            📍1. Carmen+ klinikasi
+            📍2. Gufik Avitsena
+            📍3. Xurshid Fayz to'yxonasi oldida
+        """
+    )
+    await callback.message.answer_photo(photo=photo_url, caption=text, reply_markup=channel_markup)
 
 @router.callback_query(lambda c: c.data == "contact")
 async def contact_handler(callback: types.CallbackQuery):
@@ -201,6 +266,7 @@ async def contact_handler(callback: types.CallbackQuery):
         "uz": "Telefon: +998652205545\nWeb-sayt: www.bimu.uz",
         "tr": "Telefon: +998652205545\nWeb sitesi: www.bimu.uz"
     }
+
     await callback.message.answer(contact_text[language], reply_markup=channel_markup)
 
 @router.callback_query(lambda c: c.data == "to_home")
